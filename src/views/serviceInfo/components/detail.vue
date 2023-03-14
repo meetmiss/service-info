@@ -1095,7 +1095,6 @@ export default {
                   document.getElementsByTagName("textarea").length > 0 &&
                     Array.from(document.getElementsByTagName("textarea")).map(
                       (val) => {
-                        console.log();
                         if (!val.value) {
                           if (current.D_SERVICE_MODE !== "专线") {
                             val.style.borderColor = "#DCDFE6";
@@ -1278,7 +1277,7 @@ export default {
         );
         this.handleValidate(currentData);
         if (!this.validateFlag) {
-          this.$refs.ruleForm.resetFields();
+          // this.$refs.ruleForm.resetFields();
           this.ruleForm.D_DEPART_NAME =
             this.userInfo && this.userInfo.depart ? this.userInfo.depart : "";
           if (this.addFlag) {
@@ -1296,7 +1295,8 @@ export default {
                 : "", // 服务结束时间
               D_SERVICE_OBJ_NAME: currentData.D_SERVICE_OBJ_NAME, // 单位名称-服务对象
               D_SERVICE_OBJ_TYPE: currentData.D_SERVICE_OBJ_TYPE, // 类别-服务对象
-              D_DATA_TYPE: currentData.D_DATA_TYPE.join(","), // 资料类别
+              // D_DATA_TYPE: currentData.D_DATA_TYPE.join(","), // 资料类别
+              D_DATA_TYPE: currentData.D_DATA_TYPE, // 资料类别
               D_DATA_CONTENT: currentData.D_DATA_CONTENT, // 资料内容
               D_DATA_START_DATE: currentData.D_DATA_START_DATE
                 ? moment(currentData.D_DATA_START_DATE).format("YYYYMMDD")
@@ -1326,6 +1326,7 @@ export default {
                 this.handleQueryTable();
                 this.operateDataIndex = -1;
                 this.addFlag = true;
+                this.$refs.ruleForm.resetFields();
               } else {
                 this.$message.error(res.data.retmsg);
               }
@@ -1333,6 +1334,8 @@ export default {
           } else {
             const changeData = JSON.parse(JSON.stringify(currentData));
             changeData.D_DATA_TYPE = currentData.D_DATA_TYPE.join(",");
+            changeData.STATE = 0;
+            changeData.D_CHECK_INFO = "";
             changeData.D_SERVICE_START_DATE = currentData.D_SERVICE_START_DATE
               ? moment(currentData.D_SERVICE_START_DATE).format("YYYYMMDD")
               : "";
